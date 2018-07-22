@@ -23,16 +23,18 @@ AppAsset::register($this);
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <?php $this->registerCsrfMetaTags() ?>
     <!-- Bootstrap 3.3.7 -->
-    <?php $this->registerCssFile('css/bootstrap/bootstrap.min.css'); ?>
+    <?php $this->registerCssFile('/css/bootstrap/bootstrap.min.css'); ?>
     <!-- Font Awesome -->
-    <?php $this->registerCssFile('css/font-awesome/font-awesome.min.css'); ?>
+    <?php $this->registerCssFile('/css/font-awesome/font-awesome.min.css'); ?>
     <!-- Ionicons -->
-    <?php $this->registerCssFile('css/ionicons/ionicons.min.css'); ?>
+    <?php $this->registerCssFile('/css/ionicons/ionicons.min.css'); ?>
     <!-- Theme style -->
-    <?php $this->registerCssFile('css/adminlte/AdminLTE.min.css'); ?>
+    <?php $this->registerCssFile('/css/adminlte/AdminLTE.min.css'); ?>
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <?php $this->registerCssFile('css/adminlte/skins/_all-skins.min.css'); ?>
+    <?php $this->registerCssFile('/css/adminlte/skins/_all-skins.min.css'); ?>
+    <!-- Custom css
+    <?php $this->registerCssFile('/css/admin.css'); ?>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -270,15 +272,17 @@ AppAsset::register($this);
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="treeview">
+        <li class="treeview <?= Yii::$app->controller->action->id == 'users' ? 'active' : '' ?>">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            <i class="fa fa-users"></i> <span>Users</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="../../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+            <li class="<?= Yii::$app->controller->action->id == 'users' ? 'active' : '' ?>">
+                <a href="/admin/users"><i class="fa fa-circle-o"></i> Список пользователей</a>
+            </li>
             <li><a href="../../index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
           </ul>
         </li>
@@ -447,7 +451,7 @@ AppAsset::register($this);
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+      <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
         Boxed Layout
@@ -461,36 +465,9 @@ AppAsset::register($this);
     </section>
 
     <!-- Main content -->
-    <section class="content">
-      <div class="callout callout-info">
-        <h4>Tip!</h4>
-
-        <p>Add the layout-boxed class to the body tag to get this layout. The boxed layout is helpful when working on
-          large screens because it prevents the site from stretching very wide.</p>
-      </div>
-      <!-- Default box -->
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Title</h3>
-
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-              <i class="fa fa-minus"></i></button>
-            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-              <i class="fa fa-times"></i></button>
-          </div>
-        </div>
-        <div class="box-body">
-          Start creating your amazing application!
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer">
-          Footer
-        </div>
-        <!-- /.box-footer-->
-      </div>
-      <!-- /.box -->
-    </section>
+      <section class="content">
+      <?= $content ?>
+      </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -700,15 +677,15 @@ AppAsset::register($this);
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->
-<?php $this->registerJsFile('js/jquery//jquery.min.js'); ?>
+<?php $this->registerJsFile('/js/jquery//jquery.min.js'); ?>
 <!-- Bootstrap 3.3.7 -->
-<?php $this->registerJsFile('js/bootstrap/bootstrap.min.js'); ?>
+<?php $this->registerJsFile('/js/bootstrap/bootstrap.min.js'); ?>
 <!-- SlimScroll -->
-<?php $this->registerJsFile('js/jquery-slimscroll/jquery.slimscroll.min.js'); ?>
+<?php $this->registerJsFile('/js/jquery-slimscroll/jquery.slimscroll.min.js'); ?>
 <!-- FastClick -->
-<?php $this->registerJsFile('js/fastclick/fastclick.js'); ?>
+<?php $this->registerJsFile('/js/fastclick/fastclick.js'); ?>
 <!-- AdminLTE App -->
-<?php $this->registerJsFile('js/adminlte/adminlte.min.js'); ?>
+<?php $this->registerJsFile('/js/adminlte/adminlte.min.js'); ?>
 <?php $this->endBody() ?>
 </body>
 </html>
