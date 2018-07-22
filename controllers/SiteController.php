@@ -2,8 +2,11 @@
 
 namespace app\controllers;
 
+use app\models\SignupForm;
+use app\models\User;
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -98,6 +101,76 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
+    /**
+     * Register new user
+     *
+     * @return string|Response
+     */
+    public function actionSignup()
+    {
+        $model = new SignupForm();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->signup()) {
+
+                // Send the email:
+                $mail = Yii::$app->mailer
+                    ->compose('account_active', ['code' => $user->auth_key])
+                    ->setFrom('from@domain.com')
+                    ->setTo($user->email)
+                    ->setSubject('Activate account')
+                    ->send();
+
+                if ($mail) {
+                    return $this->render('waiting', [
+                        'message' => 'Check your email for letter with activation code']);
+                } else {
+                    $this->goHome();
+                }
+                /*
+                if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+                }
+                */
+            }
+        }
+
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Active user account
+     *
+     * @return Response
+     * @throws \Exception
+     * @throws \Throwable
+     */
+    public function actionActive()
+    {
+        $authKey = Yii::$app->request->get('code');
+        if (!$authKey) {
+            Yii::$app->session->setFlash('error', "Active code not found!");
+            return $this->goHome();
+        }
+
+        $user = User::findByAuthKey($authKey);
+        if (!$user) {
+            Yii::$app->session->setFlash('error', "User not found!");
+            return $this->goHome();
+        }
+
+        $user->status = User::STATUS_ACTIVE;
+        $user->update();
+
+        if (Yii::$app->getUser()->login($user)) {
+        } else {
+            Yii::$app->session->setFlash('error', "Can't enter!");
+        }
+        return $this->goHome();
+    }
+    
     /**
      * Displays contact page.
      *

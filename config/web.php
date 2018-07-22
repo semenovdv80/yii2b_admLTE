@@ -32,6 +32,10 @@ $config = [
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
             'useFileTransport' => true,
+            'messageConfig' => [
+                'charset' => 'UTF-8',
+                'from' => ['noreply@site.com' => 'Site Name'],
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -48,6 +52,9 @@ $config = [
             'showScriptName' => false,
             'rules' => [
             ],
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
         ],
     ],
     'params' => $params,
